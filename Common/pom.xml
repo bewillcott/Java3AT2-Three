@@ -12,6 +12,16 @@
     <name>Common Library</name>
     <description>This library contains classes common to multiple projects.</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+    </dependencies>
 
     <profiles>
         <profile>
