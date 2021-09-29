@@ -104,7 +104,7 @@ public class App
 
         for (int i = 0; i < NUM_OF_TEST_RUNS; i++)
         {
-            rows[0].add(helper.sortIt(Sorting::arraySort, "Array.Sort [" + (i + 1) + "]", null));
+            rows[0].add(helper.sortIt(Sorting::arraySort, "Arrays.sort [" + (i + 1) + "]", null));
 
             for (int j = 0; j < list.size(); j++)
             {
@@ -135,7 +135,7 @@ public class App
         }
 
         System.out.format("\nAverage results over %d test runs:\n", NUM_OF_TEST_RUNS);
-        System.out.format(" - Array.Sort           : %3f\n", rows[0].getAvg());
+        System.out.format(" - Arrays.sort           : %3f\n", rows[0].getAvg());
         System.out.format(" - HeapSort            : %3f\n", rows[1].getAvg());
         System.out.format(" - MergeSort           : %3f\n", rows[2].getAvg());
         System.out.format(" - Top-down MergeSort  : %3f\n", rows[3].getAvg());
@@ -274,7 +274,7 @@ public class App
         {
             var sb = new StringBuilder(algorithm);
 
-            this.forEach(sb.append(',')::append);
+            this.forEach(obj -> sb.append(",").append(obj));
 
             return sb.toString();
         }
