@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>Java3AT2-Three</artifactId>
         <groupId>com.bewsoftware.tafe.java3.at2.three</groupId>
+        <artifactId>Java3AT2-Three</artifactId>
         <version>1.0</version>
     </parent>
 
@@ -16,7 +16,7 @@
         algorithms to sort a large number on integers.</description>
 
     <properties>
-        <jar.manifest.mainClass>com.bewsoftware.tafe.java3.at2.three.gui.App</jar.manifest.mainClass>
+        <jar.manifest.mainClass>com.bewsoftware.tafe.java3.at2.three.gui.NewMain</jar.manifest.mainClass>
     </properties>
 
     <dependencies>
@@ -36,7 +36,17 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <type>jar</type>
+            <classifier>win</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <classifier>linux</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <classifier>mac</classifier>
         </dependency>
     </dependencies>
 
@@ -86,6 +96,8 @@
                             </descriptors>
                             <archive>
                                 <manifest>
+                                    <!--                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>./</classpathPrefix>-->
                                     <mainClass>${jar.manifest.mainClass}</mainClass>
                                     <addBuildEnvironmentEntries>true</addBuildEnvironmentEntries>
                                     <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
