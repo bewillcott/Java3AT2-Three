@@ -34,7 +34,7 @@
  */
 module CommonLibrary {
     requires javafx.graphics;
-    requires org.apache.commons.lang3;
+    requires transitive org.apache.commons.lang3;
 
     exports com.bewsoftware.tafe.java3.at2.three.common;
 }
