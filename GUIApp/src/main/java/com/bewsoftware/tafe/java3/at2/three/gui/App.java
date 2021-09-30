@@ -1,7 +1,6 @@
 
 package com.bewsoftware.tafe.java3.at2.three.gui;
 
-import com.bewsoftware.tafe.java3.at2.three.gui.view.MainWindow;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,51 +21,9 @@ public class App extends Application
         launch(args);
     }
 
-    /**
-     * The data as an observable list of Persons.
-     */
-//    private final ObservableList<Person> personData = FXCollections.observableArrayList();
-
     private Stage primaryStage;
 
     private BorderPane rootLayout;
-
-    /**
-     * Constructor
-     */
-//    public MainApp()
-//    {
-//        // Add some sample data
-//        personData.add(new Person("Hans", "Muster"));
-//        personData.add(new Person("Ruth", "Mueller"));
-//        personData.add(new Person("Heinz", "Kurz"));
-//        personData.add(new Person("Cornelia", "Meier"));
-//        personData.add(new Person("Werner", "Meyer"));
-//        personData.add(new Person("Lydia", "Kunz"));
-//        personData.add(new Person("Anna", "Best"));
-//        personData.add(new Person("Stefan", "Meier"));
-//        personData.add(new Person("Martin", "Mueller"));
-//    }
-
-    /**
-     * Returns the data as an observable list of Persons.
-     *
-     * @return
-     */
-//    public ObservableList<Person> getPersonData()
-//    {
-//        return personData;
-//    }
-
-    /**
-     * Returns the main stage.
-     *
-     * @return
-     */
-    public Stage getPrimaryStage()
-    {
-        return primaryStage;
-    }
 
     /**
      * Initializes the root layout.
@@ -89,6 +46,37 @@ public class App extends Application
         {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Shows the MainWindow inside the root layout.
+     */
+    public void showMainWindow()
+    {
+        try
+        {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(App.class.getResource("view/MainWindow.fxml"));
+            GridPane mainWindow = (GridPane) loader.load();
+
+            // Set person overview into the center of root layout.
+            rootLayout.setCenter(mainWindow);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void start(Stage primaryStage)
+    {
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Java3 AT2 Three");
+
+        initRootLayout();
+
+        showMainWindow();
     }
 
     /**
@@ -133,42 +121,4 @@ public class App extends Application
 //            return false;
 //        }
 //    }
-
-    /**
-     * Shows the MainWindow inside the root layout.
-     */
-    public void showMainWindow()
-    {
-        try
-        {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(App.class.getResource("view/MainWindow.fxml"));
-            GridPane mainWindow = (GridPane) loader.load();
-
-            // Set person overview into the center of root layout.
-            rootLayout.setCenter(mainWindow);
-
-            // Give the controller access to the main app.
-            MainWindow controller = loader.getController();
-            controller.init();
-            controller.setApp(this);
-
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void start(Stage primaryStage)
-    {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Java3 AT2 Three");
-
-        initRootLayout();
-
-        showMainWindow();
-    }
-
 }

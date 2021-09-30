@@ -37,8 +37,8 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <ComboBox fx:id="algorithmComboBox" onAction="#algorithmComboBox_SelectionChanged" prefHeight="26.0" prefWidth="211.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#CancelButton_Click" text="X" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="algorithmComboBox" prefHeight="26.0" prefWidth="211.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" text="X" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
