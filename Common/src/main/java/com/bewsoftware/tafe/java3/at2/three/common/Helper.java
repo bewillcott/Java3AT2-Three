@@ -130,7 +130,7 @@ public class Helper
             // Copy sorted array back over the 'list'
             list.clear();
 
-            for (int i = 0; i < list.size(); i++)
+            for (int i = 0; i < arraySize && (cancelled == null || !cancelled.val); i++)
             {
                 list.add(listArray[i]);
             }

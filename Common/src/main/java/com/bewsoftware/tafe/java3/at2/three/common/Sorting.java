@@ -149,7 +149,10 @@ public class Sorting
         // Sort data from B[] to A[]
         topDownSplitMerge(B, 0, B.length, A, cancelled);
 
-        System.arraycopy(A, 0, listArray, 0, listArray.length);
+        if (cancelled == null || !cancelled.val)
+        {
+            System.arraycopy(A, 0, listArray, 0, listArray.length);
+        }
     }
 
     /**
@@ -246,31 +249,34 @@ public class Sorting
          */
         while (cancelled == null || !cancelled.val)
         {
-            while (list[i] < x)
+            while (list[i] < x && (cancelled == null || !cancelled.val))
             {
                 i++;
             }
-            while (x < list[j])
+
+            while (x < list[j] && (cancelled == null || !cancelled.val))
             {
                 j--;
             }
-            if (i <= j)
+
+            if (i <= j && (cancelled == null || !cancelled.val))
             {
                 exchange(list, i, j);
                 i++;
                 j--;
             }
+
             if (i > j)
             {
                 break;
             }
         }
 
-        if (leftIndex < j)
+        if (leftIndex < j && (cancelled == null || !cancelled.val))
         {
             intArrayQuickSort(list, leftIndex, j, cancelled);
         }
-        if (i < rightIndex)
+        if (i < rightIndex && (cancelled == null || !cancelled.val))
         {
             intArrayQuickSort(list, i, rightIndex, cancelled);
         }
@@ -387,7 +393,7 @@ public class Sorting
     private static void mergeSortDivide(int[] list, int leftIndex,
             int rightIndex, Ref<Boolean> cancelled)
     {
-        if (leftIndex < rightIndex)
+        if (leftIndex < rightIndex && (cancelled == null || !cancelled.val))
         {
             // Find the middle point
             var midIndex = leftIndex + (rightIndex - leftIndex) / 2;
@@ -409,11 +415,11 @@ public class Sorting
      * Right source half is {@code A[iMiddle..iEnd-1]} .<br>
      * Result is {@code B[iBegin..iEnd-1]} .
      *
-     * @param A       source data
-     * @param iBegin  beginning index
-     * @param iMiddle middle index
-     * @param iEnd    ending index
-     * @param B       target data
+     * @param A         source data
+     * @param iBegin    beginning index
+     * @param iMiddle   middle index
+     * @param iEnd      ending index
+     * @param B         target data
      * @param cancelled task has been cancelled
      */
     private static void topDownMerge(int[] A, int iBegin, int iMiddle, int iEnd, int[] B,
@@ -445,10 +451,10 @@ public class Sorting
      * iBegin is inclusive; iEnd is exclusive.<br>
      * (A[iEnd] is not in the set).
      *
-     * @param B      working copy
-     * @param iBegin beginning index
-     * @param iEnd   ending index
-     * @param A      original data
+     * @param B         working copy
+     * @param iBegin    beginning index
+     * @param iEnd      ending index
+     * @param A         original data
      * @param cancelled task has been cancelled
      */
     private static void topDownSplitMerge(int[] B, int iBegin, int iEnd, int[] A,
