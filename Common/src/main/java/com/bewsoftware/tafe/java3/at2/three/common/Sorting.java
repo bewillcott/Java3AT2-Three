@@ -26,14 +26,13 @@
 
 package com.bewsoftware.tafe.java3.at2.three.common;
 
-import com.bewsoftware.tafe.java3.at2.three.common.BackgroundWorker.Parameters;
 import java.util.Arrays;
 
 /**
  * This class contains static methods designed to sort an array using a
  * {@link Comparator}.
  *
- * @author <a href="mailto:bwp.opensource@yahoo.com">Bradley Willcott</a>
+ * @author <a href="mailto:cancelled.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 1.0
  * @version 1.0
@@ -46,9 +45,9 @@ public class Sorting
      * {@link Arrays#sort(int[]) algorithm.
      *
      * @param listArray the data to sort
-     * @param bwp       not used
+     * @param cancelled
      */
-    public static void arraySort(int[] listArray, Parameters bwp)
+    public static void arraySort(int[] listArray, Ref<Boolean> cancelled)
     {
         Arrays.sort(listArray);
     }
@@ -67,27 +66,27 @@ public class Sorting
      * - Replaced some code with method call
      *
      * @param listArray the data to sort
-     * @param bwp       worker thread parameters
+     * @param cancelled task has been cancelled
      */
-    public static void heapSort(int[] listArray, Parameters bwp)
+    public static void heapSort(int[] listArray, Ref<Boolean> cancelled)
     {
         var numOfElements = listArray.length;
 
         // Build heap (rearrange array)
-        for (int i = numOfElements / 2 - 1; i >= 0 && (bwp == null || !bwp.isCancelled()); i--)
+        for (int i = numOfElements / 2 - 1; i >= 0 && (cancelled == null || !cancelled.val); i--)
         {
-            heapify(listArray, numOfElements, i, bwp);
+            heapify(listArray, numOfElements, i, cancelled);
         }
 
         // One by one extract an element from heap
-        for (int i = numOfElements - 1; i > 0 && (bwp == null || !bwp.isCancelled()); i--)
+        for (int i = numOfElements - 1; i > 0 && (cancelled == null || !cancelled.val); i--)
         {
             // Move current root to end
             // (BW) replaced with method call
             exchange(listArray, 0, i);
 
             // call max heapify on the reduced heap
-            heapify(listArray, i, 0, bwp);
+            heapify(listArray, i, 0, cancelled);
         }
     }
 
@@ -102,11 +101,11 @@ public class Sorting
      * <br>and cleaned up.
      *
      * @param listArray the data to sort
-     * @param bwp       worker thread parameters
+     * @param cancelled task has been cancelled
      */
-    public static void mergeSort(int[] listArray, Parameters bwp)
+    public static void mergeSort(int[] listArray, Ref<Boolean> cancelled)
     {
-        mergeSortDivide(listArray, 0, listArray.length - 1, bwp);
+        mergeSortDivide(listArray, 0, listArray.length - 1, cancelled);
     }
 
     /**
@@ -121,11 +120,11 @@ public class Sorting
      * <br>and cleaned up.
      *
      * @param listArray the data to sort
-     * @param bwp       worker thread parameters
+     * @param cancelled task has been cancelled
      */
-    public static void quickSort(int[] listArray, Parameters bwp)
+    public static void quickSort(int[] listArray, Ref<Boolean> cancelled)
     {
-        intArrayQuickSort(listArray, 0, listArray.length - 1, bwp);
+        intArrayQuickSort(listArray, 0, listArray.length - 1, cancelled);
     }
 
     /**
@@ -140,15 +139,15 @@ public class Sorting
      * arrays around the wrong way.
      *
      * @param listArray the data to sort
-     * @param bwp       worker thread parameters
+     * @param cancelled task has been cancelled
      */
-    public static void topDownMergeSort(int[] listArray, Parameters bwp)
+    public static void topDownMergeSort(int[] listArray, Ref<Boolean> cancelled)
     {
         var B = Arrays.copyOf(listArray, listArray.length);
         var A = Arrays.copyOf(listArray, listArray.length);
 
         // Sort data from B[] to A[]
-        topDownSplitMerge(B, 0, B.length, A, bwp);
+        topDownSplitMerge(B, 0, B.length, A, cancelled);
 
         System.arraycopy(A, 0, listArray, 0, listArray.length);
     }
@@ -187,10 +186,10 @@ public class Sorting
      * @param list        the data to sort
      * @param sizeOfHeap
      * @param indexOfRoot
-     * @param bwp         worker thread parameters
+     * @param cancelled   task has been cancelled
      */
     private static void heapify(int[] list, int sizeOfHeap,
-            int indexOfRoot, Parameters bwp)
+            int indexOfRoot, Ref<Boolean> cancelled)
     {
         var indexOfLargest = indexOfRoot; // Initialize largest as root
         var leftIndex = 2 * indexOfRoot + 1; // left = 2*i + 1
@@ -209,13 +208,13 @@ public class Sorting
         }
 
         // If largest is not root
-        if (indexOfLargest != indexOfRoot && (bwp == null || !bwp.isCancelled()))
+        if (indexOfLargest != indexOfRoot && (cancelled == null || !cancelled.val))
         {
             // (BW) Replaced code with method call
             exchange(list, indexOfRoot, indexOfLargest);
 
             // Recursively heapify the affected sub-tree
-            heapify(list, sizeOfHeap, indexOfLargest, bwp);
+            heapify(list, sizeOfHeap, indexOfLargest, cancelled);
         }
     }
 
@@ -231,10 +230,10 @@ public class Sorting
      * @param list       the data to sort
      * @param leftIndex
      * @param rightIndex
-     * @param bwp        worker thread parameters
+     * @param cancelled  task has been cancelled
      */
     private static void intArrayQuickSort(int[] list, int leftIndex,
-            int rightIndex, Parameters bwp)
+            int rightIndex, Ref<Boolean> cancelled)
     {
 
         var i = leftIndex;
@@ -245,7 +244,7 @@ public class Sorting
         /*
          * find pivot item
          */
-        while (bwp == null || !bwp.isCancelled())
+        while (cancelled == null || !cancelled.val)
         {
             while (list[i] < x)
             {
@@ -269,11 +268,11 @@ public class Sorting
 
         if (leftIndex < j)
         {
-            intArrayQuickSort(list, leftIndex, j, bwp);
+            intArrayQuickSort(list, leftIndex, j, cancelled);
         }
         if (i < rightIndex)
         {
-            intArrayQuickSort(list, i, rightIndex, bwp);
+            intArrayQuickSort(list, i, rightIndex, cancelled);
         }
     }
 
@@ -291,10 +290,10 @@ public class Sorting
      * @param leftIndex
      * @param midIndex
      * @param rightIndex
-     * @param bwp        worker thread parameters
+     * @param cancelled  task has been cancelled
      */
     private static void mergeSortConquer(int[] list, int leftIndex, int midIndex,
-            int rightIndex, Parameters bwp)
+            int rightIndex, Ref<Boolean> cancelled)
     {
         // Find sizes of two
         // sub-arrays to be merged
@@ -309,13 +308,13 @@ public class Sorting
 
         // Copy data to temp arrays
         for (leftArrayIndex = 0; leftArrayIndex < leftArraySize
-                && (bwp == null || !bwp.isCancelled()); ++leftArrayIndex)
+                && (cancelled == null || !cancelled.val); ++leftArrayIndex)
         {
             leftArray[leftArrayIndex] = list[leftIndex + leftArrayIndex];
         }
 
         for (rightArrayIndex = 0; rightArrayIndex < rightArraySize
-                && (bwp == null || !bwp.isCancelled()); ++rightArrayIndex)
+                && (cancelled == null || !cancelled.val); ++rightArrayIndex)
         {
             rightArray[rightArrayIndex] = list[midIndex + 1 + rightArrayIndex];
         }
@@ -330,7 +329,7 @@ public class Sorting
         var listIndex = leftIndex;
 
         while (leftArrayIndex < leftArraySize && rightArrayIndex < rightArraySize
-                && (bwp == null || !bwp.isCancelled()))
+                && (cancelled == null || !cancelled.val))
         {
             // Sort back into original list array
             if (leftArray[leftArrayIndex] <= rightArray[rightArrayIndex])
@@ -347,7 +346,7 @@ public class Sorting
         }
 
         // Copy remaining elements of leftArray, if any
-        while (leftArrayIndex < leftArraySize && (bwp == null || !bwp.isCancelled()))
+        while (leftArrayIndex < leftArraySize && (cancelled == null || !cancelled.val))
         {
             list[listIndex] = leftArray[leftArrayIndex];
             leftArrayIndex++;
@@ -355,7 +354,7 @@ public class Sorting
         }
 
         // Copy remaining elements of rightArray, if any
-        while (rightArrayIndex < rightArraySize && (bwp == null || !bwp.isCancelled()))
+        while (rightArrayIndex < rightArraySize && (cancelled == null || !cancelled.val))
         {
             list[listIndex] = rightArray[rightArrayIndex];
             rightArrayIndex++;
@@ -383,10 +382,10 @@ public class Sorting
      * @param list       the data to sort
      * @param leftIndex  index of the left
      * @param rightIndex index of the right
-     * @param bwp        worker thread parameters
+     * @param cancelled  task has been cancelled
      */
     private static void mergeSortDivide(int[] list, int leftIndex,
-            int rightIndex, Parameters bwp)
+            int rightIndex, Ref<Boolean> cancelled)
     {
         if (leftIndex < rightIndex)
         {
@@ -395,11 +394,11 @@ public class Sorting
 
             // Sort first and
             // second halves
-            mergeSortDivide(list, leftIndex, midIndex, bwp);
-            mergeSortDivide(list, midIndex + 1, rightIndex, bwp);
+            mergeSortDivide(list, leftIndex, midIndex, cancelled);
+            mergeSortDivide(list, midIndex + 1, rightIndex, cancelled);
 
             // Merge the sorted halves
-            mergeSortConquer(list, leftIndex, midIndex, rightIndex, bwp);
+            mergeSortConquer(list, leftIndex, midIndex, rightIndex, cancelled);
         }
     }
 
@@ -415,16 +414,16 @@ public class Sorting
      * @param iMiddle middle index
      * @param iEnd    ending index
      * @param B       target data
-     * @param bwp     worker thread parameters
+     * @param cancelled task has been cancelled
      */
     private static void topDownMerge(int[] A, int iBegin, int iMiddle, int iEnd, int[] B,
-            Parameters bwp)
+            Ref<Boolean> cancelled)
     {
         var i = iBegin;
 
         var j = iMiddle;
 
-        for (int k = iBegin; k < iEnd && (bwp == null || !bwp.isCancelled()); k++)
+        for (int k = iBegin; k < iEnd && (cancelled == null || !cancelled.val); k++)
         {
             if (i < iMiddle && (j >= iEnd || A[i] <= A[j]))
             {
@@ -450,19 +449,19 @@ public class Sorting
      * @param iBegin beginning index
      * @param iEnd   ending index
      * @param A      original data
-     * @param bwp    worker thread parameters
+     * @param cancelled task has been cancelled
      */
     private static void topDownSplitMerge(int[] B, int iBegin, int iEnd, int[] A,
-            Parameters bwp)
+            Ref<Boolean> cancelled)
     {
-        if (iEnd - iBegin > 1 && (bwp == null || !bwp.isCancelled()))
+        if (iEnd - iBegin > 1 && (cancelled == null || !cancelled.val))
         {
             var iMiddle = (iEnd + iBegin) / 2;
 
-            topDownSplitMerge(A, iBegin, iMiddle, B, bwp);
-            topDownSplitMerge(A, iMiddle, iEnd, B, bwp);
+            topDownSplitMerge(A, iBegin, iMiddle, B, cancelled);
+            topDownSplitMerge(A, iMiddle, iEnd, B, cancelled);
 
-            topDownMerge(B, iBegin, iMiddle, iEnd, A, bwp);
+            topDownMerge(B, iBegin, iMiddle, iEnd, A, cancelled);
         }
     }
 

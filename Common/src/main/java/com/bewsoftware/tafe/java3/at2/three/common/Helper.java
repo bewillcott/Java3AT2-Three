@@ -26,7 +26,6 @@
 
 package com.bewsoftware.tafe.java3.at2.three.common;
 
-import com.bewsoftware.tafe.java3.at2.three.common.BackgroundWorker.Parameters;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -84,10 +83,8 @@ public class Helper
     /// <summary>
     /// Generate an int array of random numbers.
     /// </summary>
-    public void generateIntArray()
+    public double generateIntArray()
     {
-//        int size = list.size();
-
         if (seed != -1)
         {
             var r = new Random(seed);
@@ -98,6 +95,8 @@ public class Helper
                 list.add(r.nextInt(max) + 1);
             }
         }
+
+        return 0;
     }
 
     /// <summary>
@@ -107,7 +106,7 @@ public class Helper
     /// <param name="text">The text.</param>
     /// <param name="bw">Worker thread.</param>
     /// <returns>The elapsed time.</returns>
-    public double sortIt(BiConsumer<int[], Parameters> methodName, String text, Parameters bw)
+    public double sortIt(BiConsumer<int[], Ref<Boolean>> methodName, String text, Ref<Boolean> cancelled)
     {
         System.out.format("Processing %s => ", text);
         double elapsedTime;  // time in second, accurate to about milliseconds
@@ -125,7 +124,7 @@ public class Helper
 
             watch.reset();
             watch.start();
-            methodName.accept(listArray, bw);
+            methodName.accept(listArray, cancelled);
             watch.stop();
 
             // Copy sorted array back over the 'list'
