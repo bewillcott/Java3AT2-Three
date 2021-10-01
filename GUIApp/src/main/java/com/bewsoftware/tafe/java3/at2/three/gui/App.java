@@ -1,6 +1,7 @@
 
 package com.bewsoftware.tafe.java3.at2.three.gui;
 
+import com.bewsoftware.tafe.java3.at2.three.gui.view.RootLayoutController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +26,11 @@ public class App extends Application
 
     private BorderPane rootLayout;
 
+    public Stage getPrimaryStage()
+    {
+        return primaryStage;
+    }
+
     /**
      * Initializes the root layout.
      */
@@ -37,6 +43,9 @@ public class App extends Application
             loader.setLocation(App.class.getResource("view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
 
+            RootLayoutController rootLayoutController = loader.getController();
+            rootLayoutController.setApp(this);
+
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
@@ -47,7 +56,6 @@ public class App extends Application
             e.printStackTrace();
         }
     }
-
     /**
      * Shows the MainWindow inside the root layout.
      */
@@ -79,46 +87,4 @@ public class App extends Application
         showMainWindow();
     }
 
-    /**
-     * Opens a dialog to edit details for the specified person. If the user
-     * clicks OK, the changes are saved into the provided person object and true
-     * is returned.
-     *
-     * @param person the person object to be edited
-     *
-     * @return true if the user clicked OK, false otherwise.
-     */
-//    public boolean showPersonEditDialog(Person person)
-//    {
-//        try
-//        {
-//            // Load the fxml file and create a new stage for the popup dialog.
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(MainApp.class.getResource("view/PersonEditDialog.fxml"));
-//            AnchorPane page = (AnchorPane) loader.load();
-//
-//            // Create the dialog Stage.
-//            Stage dialogStage = new Stage();
-//            dialogStage.setTitle("Edit Person");
-//            dialogStage.initModality(Modality.WINDOW_MODAL);
-//            dialogStage.initOwner(primaryStage);
-//            Scene scene = new Scene(page);
-//            dialogStage.setScene(scene);
-//            dialogStage.setResizable(false);
-//
-//            // Set the person into the controller.
-//            PersonEditDialogController controller = loader.getController();
-//            controller.setDialogStage(dialogStage);
-//            controller.setPerson(person);
-//
-//            // Show the dialog and wait until the user closes it
-//            dialogStage.showAndWait();
-//
-//            return controller.isOkClicked();
-//        } catch (IOException e)
-//        {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
 }
