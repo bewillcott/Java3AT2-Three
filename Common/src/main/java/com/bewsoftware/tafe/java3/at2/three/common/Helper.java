@@ -34,47 +34,38 @@ import java.util.Random;
 import org.apache.commons.lang3.time.StopWatch;
 
 /**
- * Helper class description.
+ * Provides two methods: {@link #generateIntArray() generateIntArray} and
+ * {@link #sortIt(com.bewsoftware.tafe.java3.at2.three.common.util.TriConsumer,
+ * java.lang.String, com.bewsoftware.tafe.java3.at2.three.common.Ref) sortIt}.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
- * @param <T> type of items to sort
  *
  * @since 1.0
  * @version 1.0
  */
 public class Helper
 {
-    /// <summary>
-    /// Defines the list.
-    /// </summary>
     private final List<Integer> list;
 
-    /// <summary>
-    /// Defines the max.
-    /// </summary>
     private final int max;
 
-    /// <summary>
-    /// Defines the seed.
-    /// </summary>
     private final int seed;
 
     private final Comparator<Integer> comparator;
 
     private final int arraySize;
 
-    /// <summary>
-    /// Defines the watch.
-    /// </summary>
     private final StopWatch watch;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Helper"/> class.
-    /// </summary>
-    /// <param name="list">The list<see cref="int[]"/>.</param>
-    /// <param name="seed">The seed<see cref="int"/>.</param>
-    /// <param name="min">The min<see cref="int"/>.</param>
-    /// <param name="max">The max<see cref="int"/>.</param>
+    /**
+     * Initializes a new instance of the Helper class.
+     *
+     * @param list       of Integers to be sorted
+     * @param comparator to use
+     * @param seed       for Random generator
+     * @param max        random number to use
+     * @param arraySize  number of Integers to be used/size of the array
+     */
     public Helper(List<Integer> list, Comparator<Integer> comparator, int seed, int max, int arraySize)
     {
         this.list = Objects.requireNonNull(list, "List must not be null!");
@@ -88,7 +79,7 @@ public class Helper
     /**
      * Generate an int array of random numbers.
      *
-     * @return
+     * @return '0' - to allow this to work in switch statement
      */
     public double generateIntArray()
     {

@@ -43,7 +43,7 @@ public class Sorting
 
     /**
      * Sorts the {@code listArray} using the
-     * {@link Arrays#sort(int[]) algorithm.
+     * {@link Arrays#sort(int[])} algorithm.
      *
      * @param listArray  the data to sort
      * @param comparator to use to use
