@@ -27,6 +27,7 @@
 package com.bewsoftware.tafe.java3.at2.three.common;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * This class contains static methods designed to sort an array using a
@@ -44,12 +45,14 @@ public class Sorting
      * Sorts the {@code listArray} using the
      * {@link Arrays#sort(int[]) algorithm.
      *
-     * @param listArray the data to sort
+     * @param listArray  the data to sort
+     * @param comparator to use to use
      * @param cancelled
      */
-    public static void arraySort(int[] listArray, Ref<Boolean> cancelled)
+    public static void arraySort(Integer[] listArray, Comparator<Integer> comparator,
+            Ref<Boolean> cancelled)
     {
-        Arrays.sort(listArray);
+        Arrays.sort(listArray, comparator);
     }
 
     /**
@@ -65,17 +68,18 @@ public class Sorting
      * - Renamed variables<br>
      * - Replaced some code with method call
      *
-     * @param listArray the data to sort
-     * @param cancelled task has been cancelled
+     * @param listArray  the data to sort
+     * @param comparator to use
+     * @param cancelled  task has been cancelled
      */
-    public static void heapSort(int[] listArray, Ref<Boolean> cancelled)
+    public static void heapSort(Integer[] listArray, Comparator<Integer> comparator, Ref<Boolean> cancelled)
     {
         var numOfElements = listArray.length;
 
         // Build heap (rearrange array)
         for (int i = numOfElements / 2 - 1; i >= 0 && (cancelled == null || !cancelled.val); i--)
         {
-            heapify(listArray, numOfElements, i, cancelled);
+            heapify(listArray, numOfElements, i, comparator, cancelled);
         }
 
         // One by one extract an element from heap
@@ -86,7 +90,7 @@ public class Sorting
             exchange(listArray, 0, i);
 
             // call max heapify on the reduced heap
-            heapify(listArray, i, 0, cancelled);
+            heapify(listArray, i, 0, comparator, cancelled);
         }
     }
 
@@ -100,12 +104,13 @@ public class Sorting
      * https://www.csharpstar.com/merge-sort-csharp-program/</a>
      * <br>and cleaned up.
      *
-     * @param listArray the data to sort
-     * @param cancelled task has been cancelled
+     * @param listArray  the data to sort
+     * @param comparator to use
+     * @param cancelled  task has been cancelled
      */
-    public static void mergeSort(int[] listArray, Ref<Boolean> cancelled)
+    public static void mergeSort(Integer[] listArray, Comparator<Integer> comparator, Ref<Boolean> cancelled)
     {
-        mergeSortDivide(listArray, 0, listArray.length - 1, cancelled);
+        mergeSortDivide(listArray, 0, listArray.length - 1, comparator, cancelled);
     }
 
     /**
@@ -119,12 +124,13 @@ public class Sorting
      * http://anh.cs.luc.edu/170/notes/CSharpHtml/sorting.html</a>
      * <br>and cleaned up.
      *
-     * @param listArray the data to sort
-     * @param cancelled task has been cancelled
+     * @param listArray  the data to sort
+     * @param comparator to use
+     * @param cancelled  task has been cancelled
      */
-    public static void quickSort(int[] listArray, Ref<Boolean> cancelled)
+    public static void quickSort(Integer[] listArray, Comparator<Integer> comparator, Ref<Boolean> cancelled)
     {
-        intArrayQuickSort(listArray, 0, listArray.length - 1, cancelled);
+        arrayQuickSort(listArray, 0, listArray.length - 1, comparator, cancelled);
     }
 
     /**
@@ -138,16 +144,17 @@ public class Sorting
      * I have made some logic changes, as I believe they have the sort from to
      * arrays around the wrong way.
      *
-     * @param listArray the data to sort
-     * @param cancelled task has been cancelled
+     * @param listArray  the data to sort
+     * @param comparator to use
+     * @param cancelled  task has been cancelled
      */
-    public static void topDownMergeSort(int[] listArray, Ref<Boolean> cancelled)
+    public static void topDownMergeSort(Integer[] listArray, Comparator<Integer> comparator, Ref<Boolean> cancelled)
     {
         var B = Arrays.copyOf(listArray, listArray.length);
         var A = Arrays.copyOf(listArray, listArray.length);
 
         // Sort data from B[] to A[]
-        topDownSplitMerge(B, 0, B.length, A, cancelled);
+        topDownSplitMerge(B, 0, B.length, A, comparator, cancelled);
 
         if (cancelled == null || !cancelled.val)
         {
@@ -168,7 +175,7 @@ public class Sorting
      * @param m    from index
      * @param n    to index
      */
-    private static void exchange(int[] list, int m, int n)
+    private static void exchange(Integer[] list, int m, int n)
     {
         var temporary = list[m];
         list[m] = list[n];
@@ -191,21 +198,21 @@ public class Sorting
      * @param indexOfRoot
      * @param cancelled   task has been cancelled
      */
-    private static void heapify(int[] list, int sizeOfHeap,
-            int indexOfRoot, Ref<Boolean> cancelled)
+    private static void heapify(Integer[] list, int sizeOfHeap, int indexOfRoot,
+            Comparator<Integer> comparator, Ref<Boolean> cancelled)
     {
         var indexOfLargest = indexOfRoot; // Initialize largest as root
         var leftIndex = 2 * indexOfRoot + 1; // left = 2*i + 1
         var rightIndex = 2 * indexOfRoot + 2; // right = 2*i + 2
 
         // If left child is larger than root
-        if (leftIndex < sizeOfHeap && list[leftIndex] > list[indexOfLargest])
+        if (leftIndex < sizeOfHeap && comparator.compare(list[leftIndex], list[indexOfLargest]) > 0)
         {
             indexOfLargest = leftIndex;
         }
 
         // If right child is larger than largest so far
-        if (rightIndex < sizeOfHeap && list[rightIndex] > list[indexOfLargest])
+        if (rightIndex < sizeOfHeap && comparator.compare(list[rightIndex], list[indexOfLargest]) > 0)
         {
             indexOfLargest = rightIndex;
         }
@@ -217,7 +224,7 @@ public class Sorting
             exchange(list, indexOfRoot, indexOfLargest);
 
             // Recursively heapify the affected sub-tree
-            heapify(list, sizeOfHeap, indexOfLargest, cancelled);
+            heapify(list, sizeOfHeap, indexOfLargest, comparator, cancelled);
         }
     }
 
@@ -235,8 +242,8 @@ public class Sorting
      * @param rightIndex
      * @param cancelled  task has been cancelled
      */
-    private static void intArrayQuickSort(int[] list, int leftIndex,
-            int rightIndex, Ref<Boolean> cancelled)
+    private static void arrayQuickSort(Integer[] list, int leftIndex, int rightIndex,
+            Comparator<Integer> comparator, Ref<Boolean> cancelled)
     {
 
         var i = leftIndex;
@@ -249,12 +256,12 @@ public class Sorting
          */
         while (cancelled == null || !cancelled.val)
         {
-            while (list[i] < x && (cancelled == null || !cancelled.val))
+            while (comparator.compare(list[i], x) < 0 && (cancelled == null || !cancelled.val))
             {
                 i++;
             }
 
-            while (x < list[j] && (cancelled == null || !cancelled.val))
+            while (comparator.compare(x, list[j]) < 0 && (cancelled == null || !cancelled.val))
             {
                 j--;
             }
@@ -274,11 +281,11 @@ public class Sorting
 
         if (leftIndex < j && (cancelled == null || !cancelled.val))
         {
-            intArrayQuickSort(list, leftIndex, j, cancelled);
+            arrayQuickSort(list, leftIndex, j, comparator, cancelled);
         }
         if (i < rightIndex && (cancelled == null || !cancelled.val))
         {
-            intArrayQuickSort(list, i, rightIndex, cancelled);
+            arrayQuickSort(list, i, rightIndex, comparator, cancelled);
         }
     }
 
@@ -298,8 +305,8 @@ public class Sorting
      * @param rightIndex
      * @param cancelled  task has been cancelled
      */
-    private static void mergeSortConquer(int[] list, int leftIndex, int midIndex,
-            int rightIndex, Ref<Boolean> cancelled)
+    private static void mergeSortConquer(Integer[] list, int leftIndex, int midIndex,
+            int rightIndex, Comparator<Integer> comparator, Ref<Boolean> cancelled)
     {
         // Find sizes of two
         // sub-arrays to be merged
@@ -307,8 +314,8 @@ public class Sorting
         var rightArraySize = rightIndex - midIndex;
 
         // Create temp arrays
-        var leftArray = new int[leftArraySize];
-        var rightArray = new int[rightArraySize];
+        var leftArray = new Integer[leftArraySize];
+        var rightArray = new Integer[rightArraySize];
         int leftArrayIndex;
         int rightArrayIndex;
 
@@ -338,7 +345,7 @@ public class Sorting
                 && (cancelled == null || !cancelled.val))
         {
             // Sort back into original list array
-            if (leftArray[leftArrayIndex] <= rightArray[rightArrayIndex])
+            if (comparator.compare(leftArray[leftArrayIndex], rightArray[rightArrayIndex]) <= 0)
             {
                 list[listIndex] = leftArray[leftArrayIndex];
                 leftArrayIndex++;
@@ -390,8 +397,8 @@ public class Sorting
      * @param rightIndex index of the right
      * @param cancelled  task has been cancelled
      */
-    private static void mergeSortDivide(int[] list, int leftIndex,
-            int rightIndex, Ref<Boolean> cancelled)
+    private static void mergeSortDivide(Integer[] list, int leftIndex, int rightIndex,
+            Comparator<Integer> comparator, Ref<Boolean> cancelled)
     {
         if (leftIndex < rightIndex && (cancelled == null || !cancelled.val))
         {
@@ -400,11 +407,11 @@ public class Sorting
 
             // Sort first and
             // second halves
-            mergeSortDivide(list, leftIndex, midIndex, cancelled);
-            mergeSortDivide(list, midIndex + 1, rightIndex, cancelled);
+            mergeSortDivide(list, leftIndex, midIndex, comparator, cancelled);
+            mergeSortDivide(list, midIndex + 1, rightIndex, comparator, cancelled);
 
             // Merge the sorted halves
-            mergeSortConquer(list, leftIndex, midIndex, rightIndex, cancelled);
+            mergeSortConquer(list, leftIndex, midIndex, rightIndex, comparator, cancelled);
         }
     }
 
@@ -422,8 +429,8 @@ public class Sorting
      * @param B         target data
      * @param cancelled task has been cancelled
      */
-    private static void topDownMerge(int[] A, int iBegin, int iMiddle, int iEnd, int[] B,
-            Ref<Boolean> cancelled)
+    private static void topDownMerge(Integer[] A, int iBegin, int iMiddle, int iEnd,
+            Integer[] B, Comparator<Integer> comparator, Ref<Boolean> cancelled)
     {
         var i = iBegin;
 
@@ -431,7 +438,7 @@ public class Sorting
 
         for (int k = iBegin; k < iEnd && (cancelled == null || !cancelled.val); k++)
         {
-            if (i < iMiddle && (j >= iEnd || A[i] <= A[j]))
+            if (i < iMiddle && (j >= iEnd || comparator.compare(A[i], A[j]) <= 0))
             {
                 B[k] = A[i];
                 i++;
@@ -457,17 +464,17 @@ public class Sorting
      * @param A         original data
      * @param cancelled task has been cancelled
      */
-    private static void topDownSplitMerge(int[] B, int iBegin, int iEnd, int[] A,
-            Ref<Boolean> cancelled)
+    private static void topDownSplitMerge(Integer[] B, int iBegin, int iEnd,
+            Integer[] A, Comparator<Integer> comparator, Ref<Boolean> cancelled)
     {
         if (iEnd - iBegin > 1 && (cancelled == null || !cancelled.val))
         {
             var iMiddle = (iEnd + iBegin) / 2;
 
-            topDownSplitMerge(A, iBegin, iMiddle, B, cancelled);
-            topDownSplitMerge(A, iMiddle, iEnd, B, cancelled);
+            topDownSplitMerge(A, iBegin, iMiddle, B, comparator, cancelled);
+            topDownSplitMerge(A, iMiddle, iEnd, B, comparator, cancelled);
 
-            topDownMerge(B, iBegin, iMiddle, iEnd, A, cancelled);
+            topDownMerge(B, iBegin, iMiddle, iEnd, A, comparator, cancelled);
         }
     }
 

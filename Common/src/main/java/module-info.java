@@ -36,4 +36,5 @@ module CommonLibrary {
     requires transitive org.apache.commons.lang3;
 
     exports com.bewsoftware.tafe.java3.at2.three.common;
+    exports com.bewsoftware.tafe.java3.at2.three.common.util;
 }

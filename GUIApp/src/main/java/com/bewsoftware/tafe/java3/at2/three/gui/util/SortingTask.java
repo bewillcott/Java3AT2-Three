@@ -58,6 +58,7 @@ public class SortingTask extends Task<Double>
      *
      * @param item
      * @param helper
+     * @param mainWindow
      */
     public SortingTask(Algorithm item, Helper helper, MainWindow mainWindow)
     {
@@ -88,7 +89,7 @@ public class SortingTask extends Task<Double>
                     helper.sortIt(Sorting::heapSort, item.label, cancelled);
 
                 case MERGESORT ->
-                    helper.sortIt(Sorting::mergeSort, item.label, cancelled);
+                    helper.sortIt(Sorting::topDownMergeSort, item.label, cancelled);
 
                 case QUICKSORT ->
                     helper.sortIt(Sorting::quickSort, item.label, cancelled);

@@ -89,7 +89,7 @@ public class App
     /// </summary>
     public static void main(String[] args)
     {
-        var helper = new Helper(list, RANDOM_SEED, MAX_SALARY, ARRAY_SIZE);
+        var helper = new Helper(list, Integer::compareTo, RANDOM_SEED, MAX_SALARY, ARRAY_SIZE);
         var rows = new CsvRow[]
         {
             new CsvRow("Arrays.sort"),

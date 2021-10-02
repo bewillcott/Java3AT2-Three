@@ -26,16 +26,18 @@
 
 package com.bewsoftware.tafe.java3.at2.three.common;
 
+import com.bewsoftware.tafe.java3.at2.three.common.util.TriConsumer;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.function.BiConsumer;
 import org.apache.commons.lang3.time.StopWatch;
 
 /**
  * Helper class description.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
+ * @param <T> type of items to sort
  *
  * @since 1.0
  * @version 1.0
@@ -57,6 +59,8 @@ public class Helper
     /// </summary>
     private final int seed;
 
+    private final Comparator<Integer> comparator;
+
     private final int arraySize;
 
     /// <summary>
@@ -71,18 +75,21 @@ public class Helper
     /// <param name="seed">The seed<see cref="int"/>.</param>
     /// <param name="min">The min<see cref="int"/>.</param>
     /// <param name="max">The max<see cref="int"/>.</param>
-    public Helper(List<Integer> list, int seed, int max, int arraySize)
+    public Helper(List<Integer> list, Comparator<Integer> comparator, int seed, int max, int arraySize)
     {
         this.list = Objects.requireNonNull(list, "List must not be null!");
+        this.comparator = comparator;
         this.seed = seed;
         this.max = max;
         this.arraySize = arraySize;
         watch = new StopWatch();
     }
 
-    /// <summary>
-    /// Generate an int array of random numbers.
-    /// </summary>
+    /**
+     * Generate an int array of random numbers.
+     *
+     * @return
+     */
     public double generateIntArray()
     {
         if (seed != -1)
@@ -99,14 +106,17 @@ public class Helper
         return 0;
     }
 
-    /// <summary>
-    /// Sorts it.
-    /// </summary>
-    /// <param name="methodName">Name of the method.</param>
-    /// <param name="text">The text.</param>
-    /// <param name="bw">Worker thread.</param>
-    /// <returns>The elapsed time.</returns>
-    public double sortIt(BiConsumer<int[], Ref<Boolean>> methodName, String text, Ref<Boolean> cancelled)
+    /**
+     * Set up, time, run and finish up from, sorting the array.
+     *
+     * @param methodName name of method to run
+     * @param text       to display
+     * @param cancelled  reference object holding the boolean value
+     *
+     * @return the elapsed time
+     */
+    public double sortIt(TriConsumer<Integer[], Comparator<Integer>, Ref<Boolean>> methodName,
+            String text, Ref<Boolean> cancelled)
     {
         System.out.format("Processing %s => ", text);
         double elapsedTime;  // time in second, accurate to about milliseconds
@@ -115,7 +125,7 @@ public class Helper
         if (methodName != null)
         {
             // create working copy
-            var listArray = new int[list.size()];
+            var listArray = new Integer[list.size()];
 
             for (int i = 0; i < list.size(); i++)
             {
@@ -124,7 +134,7 @@ public class Helper
 
             watch.reset();
             watch.start();
-            methodName.accept(listArray, cancelled);
+            methodName.accept(listArray, comparator, cancelled);
             watch.stop();
 
             // Copy sorted array back over the 'list'
@@ -138,7 +148,7 @@ public class Helper
         {
             watch.reset();
             watch.start();
-//  TODO:          list.sort(c);
+            list.sort(comparator);
             watch.stop();
         }
 
