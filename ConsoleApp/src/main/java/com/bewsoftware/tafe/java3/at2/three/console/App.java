@@ -28,7 +28,9 @@ package com.bewsoftware.tafe.java3.at2.three.console;
 
 import com.bewsoftware.tafe.java3.at2.three.common.Helper;
 import com.bewsoftware.tafe.java3.at2.three.common.Sorting;
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,9 +162,22 @@ public class App
     {
         var rtn = false;
 
-        if (fileName != null && !fileName.isBlank())
+        if (rows[0] != null && fileName != null && !fileName.isBlank())
         {
-            try (FileWriter sw = new FileWriter(fileName))
+            File file = new File(fileName);
+
+            if (!file.exists())
+            {
+                try (FileWriter sw = new FileWriter(fileName))
+                {
+                    sw.write(rows[0].csvHeader() + "\n");
+                } catch (IOException ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+
+            try (FileWriter sw = new FileWriter(fileName, true))
             {
                 for (var row : rows)
                 {
@@ -260,13 +275,30 @@ public class App
                             rtn.add(Double.parseDouble(item));
                         }
                     } catch (NumberFormatException ex)
-                    { // Quietly ignore it 
+                    { // Quietly ignore it
                         rtn = null;
                     }
                 }
             }
 
             return rtn;
+        }
+
+        /**
+         * CSV file column headers.
+         *
+         * @return
+         */
+        public String csvHeader()
+        {
+            var sb = new StringBuilder("Sort Algorithm");
+
+            for (int i = 0; i < this.size(); i++)
+            {
+                sb.append(",").append("Run #").append(i + 1);
+            }
+
+            return sb.toString();
         }
 
         @Override

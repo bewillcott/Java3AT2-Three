@@ -57,6 +57,7 @@ public class AboutController
     @FXML
     private void initialize()
     {
-
+        verionLabel.setText("v1.0");
+        buildDateLabel.setText("2 October 2021");
     }
 }

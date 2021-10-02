@@ -88,7 +88,7 @@ public class MainWindow
      */
     public MainWindow()
     {
-        helper = new Helper(list, Integer::compareTo, RANDOM_SEED, MAX_SALARY, ARRAY_SIZE);
+        helper = new Helper(list, Integer::compare, RANDOM_SEED, MAX_SALARY, ARRAY_SIZE);
     }
 
     /**
