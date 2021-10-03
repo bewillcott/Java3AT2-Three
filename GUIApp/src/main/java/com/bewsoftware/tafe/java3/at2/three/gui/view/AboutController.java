@@ -58,6 +58,6 @@ public class AboutController
     private void initialize()
     {
         verionLabel.setText("v1.0");
-        buildDateLabel.setText("2 October 2021");
+        buildDateLabel.setText("3 October 2021");
     }
 }
