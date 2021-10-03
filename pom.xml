@@ -15,8 +15,6 @@
     <properties>
         <java.version>16</java.version>
         <javafx.version>16</javafx.version>
-        <junit.version>5.8.0-M1</junit.version>
-        <junit.platform.version>1.3.2</junit.platform.version>
         <source.encoding>UTF-8</source.encoding>
         <javadoc.source.version>${java.version}</javadoc.source.version>
         <jdk.version>${java.version}</jdk.version>
@@ -136,25 +134,25 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>5.8.0-M1</version>
+                <version>5.8.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-params</artifactId>
-                <version>5.6.0</version>
+                <version>5.8.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.6.0</version>
+                <version>5.8.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-surefire-provider</artifactId>
-                <version>${junit.platform.version}</version>
+                <version>1.3.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -175,7 +173,7 @@
                 <plugin>
                     <groupId>org.openjfx</groupId>
                     <artifactId>javafx-maven-plugin</artifactId>
-                    <version>0.0.6</version>
+                    <version>0.0.7</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
