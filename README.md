@@ -4,7 +4,7 @@ This is a TAFE assignment for the Diploma in Software Development, at the South 
 Rockingham, Western Australia.
 
 The project task is to develop an application that creates a list of integers between 1 and 10 million.
-It needs the ability to sort in three different styles with timers to indicate the speed at which this 
+It needs the ability to sort in at least three different styles with timers to indicate the speed at which this 
 happens.
 
 ## Implementation
@@ -19,8 +19,8 @@ This is a non-executable jar, containing a collection of classes that are in 'co
 multiple projects.  It contains the Sorting class.
 
 ### ConsoleApp
-An application that tests the sorting algorithms.
+An application that tests the sorting algorithms and outputs the collected results into a CSV file.
 
 ### GUIApp
-A GUI application that allows the user to select one of three sorting algorithms to sort a large 
+A GUI application that allows the user to select one of four sorting algorithms to sort a large 
 number on integers.
