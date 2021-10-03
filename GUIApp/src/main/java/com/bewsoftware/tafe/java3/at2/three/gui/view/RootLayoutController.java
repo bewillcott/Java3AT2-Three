@@ -39,7 +39,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * RootLayoutController class description.
+ * FXML Controller class for the 'RootLayout.fxml' file.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
