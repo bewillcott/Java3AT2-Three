@@ -66,7 +66,11 @@ public class SortingTask extends Task<Double>
         this.item = item;
         this.mainWindow = mainWindow;
 
-        setOnCancelled((WorkerStateEvent t) -> cancelled.val = true);
+        setOnCancelled((WorkerStateEvent t) ->
+        {
+            updateMessage("Cancel pending ...");
+            cancelled.val = true;
+        });
     }
 
     /**

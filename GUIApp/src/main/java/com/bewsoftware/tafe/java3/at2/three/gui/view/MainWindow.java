@@ -30,6 +30,7 @@ import com.bewsoftware.tafe.java3.at2.three.common.Helper;
 import com.bewsoftware.tafe.java3.at2.three.gui.util.Algorithm;
 import com.bewsoftware.tafe.java3.at2.three.gui.util.SortingTask;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -37,6 +38,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import static java.text.NumberFormat.getIntegerInstance;
 import static javafx.scene.control.Alert.AlertType.ERROR;
 
 /**
@@ -48,7 +50,7 @@ public class MainWindow
 {
 
     /// </summary>
-    private final int ARRAY_SIZE = 10000000;
+    private final int ARRAY_SIZE = 1000000;
 
     private final int MAX_SALARY = 10000000;
 
@@ -83,6 +85,9 @@ public class MainWindow
 
     private SortingTask worker;
 
+    @FXML
+    private Label numOfIntegersLabel;
+
     /**
      * Initializes a new instance of the MainWindow class.
      */
@@ -110,7 +115,6 @@ public class MainWindow
         durationLabel.textProperty().bind(worker.messageProperty());
 
         Thread tasker = new Thread(worker);
-        tasker.setDaemon(true);
         tasker.start();
     }
 
@@ -122,14 +126,6 @@ public class MainWindow
     public void stopWorker(ActionEvent event)
     {
         worker.cancel();
-    }
-
-    /**
-     * Called by worker task if completed successfully.
-     */
-    public void workerSucceeded()
-    {
-        salaryListBox.getItems().addAll(list);
     }
 
     /**
@@ -148,6 +144,14 @@ public class MainWindow
         new Alert(ERROR, "Operation failed to complete").showAndWait();
     }
 
+    /**
+     * Called by worker task if completed successfully.
+     */
+    public void workerSucceeded()
+    {
+        salaryListBox.getItems().addAll(list);
+    }
+
     @FXML
     private void initialize()
     {
@@ -157,6 +161,9 @@ public class MainWindow
         algorithmComboBox.getSelectionModel().selectFirst();
 
         cancelButton.setOnAction(this::stopWorker);
+
+        NumberFormat nf = getIntegerInstance();
+        numOfIntegersLabel.setText(nf.format(ARRAY_SIZE));
         startWorker(null);
     }
 
