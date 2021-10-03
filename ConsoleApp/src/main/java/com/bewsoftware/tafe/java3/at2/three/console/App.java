@@ -31,8 +31,11 @@ import com.bewsoftware.tafe.java3.at2.three.common.Sorting;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.text.NumberFormat.getIntegerInstance;
 
 /**
  * App class description.
@@ -47,7 +50,7 @@ public class App
     /// <summary>
     /// The array size
     /// </summary>
-    private static final int ARRAY_SIZE = 10000000;
+    private static final int ARRAY_SIZE = 1000000;
 
     /// <summary>
     /// The filename
@@ -126,7 +129,7 @@ public class App
             System.out.println("--------------------------------------------------------------");
         }
 
-        System.out.format("Writing data to CSV filename: %s\n", FILENAME);
+        System.out.format("\nWriting data to CSV filename: %s\n", FILENAME);
 
         if (writeCSVData(FILENAME, rows))
         {
@@ -136,12 +139,14 @@ public class App
             System.out.println("Failed to write data.");
         }
 
-        System.out.format("\nAverage results over %d test runs:\n", NUM_OF_TEST_RUNS);
+        NumberFormat nf = getIntegerInstance();
+
+        System.out.format("\nAverage results over %d test runs of %s Integers:\n", NUM_OF_TEST_RUNS, nf.format(ARRAY_SIZE));
         System.out.format(" - Arrays.sort           : %3f\n", rows[0].getAvg());
-        System.out.format(" - HeapSort            : %3f\n", rows[1].getAvg());
-        System.out.format(" - MergeSort           : %3f\n", rows[2].getAvg());
-        System.out.format(" - Top-down MergeSort  : %3f\n", rows[3].getAvg());
-        System.out.format(" - QuickSort           : %3f\n", rows[4].getAvg());
+        System.out.format(" - HeapSort              : %3f\n", rows[1].getAvg());
+        System.out.format(" - MergeSort             : %3f\n", rows[2].getAvg());
+        System.out.format(" - Top-down MergeSort    : %3f\n", rows[3].getAvg());
+        System.out.format(" - QuickSort             : %3f\n", rows[4].getAvg());
 
         for (int i = 0; i < ls.length; i++)
         {
