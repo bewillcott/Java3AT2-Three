@@ -38,7 +38,10 @@ import java.util.List;
 import static java.text.NumberFormat.getIntegerInstance;
 
 /**
- * App class description.
+ * This is the Console Application for my Java3 AT2 Three assignment.
+ * <p>
+ * It is essentially for the testing of the sort algorithms, and for producing
+ * test results which are stored in a CSV file for later use.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
@@ -47,54 +50,49 @@ import static java.text.NumberFormat.getIntegerInstance;
  */
 public class App
 {
-    /// <summary>
-    /// The array size
-    /// </summary>
+    /**
+     * The array size.
+     */
     private static final int ARRAY_SIZE = 1000000;
 
-    /// <summary>
-    /// The filename
-    /// </summary>
+    /**
+     * The output CSV filename.
+     */
     private static final String FILENAME = "sort_duration.csv";
 
-    /// <summary>
-    /// The maximum salary
-    /// </summary>
-    private static final int MAX_SALARY = 1000000;
+    /**
+     * Largest Integer value.
+     */
+    private static final int MAX_INTEGER = 10000000;
 
-    /// <summary>
-    /// The minimum salary
-    /// </summary>
-    private static final int MIN_SALARY = 10000;
-
-    /// <summary>
-    /// The number of test runs
-    /// </summary>
+    /**
+     * The number of test runs.
+     */
     private static final int NUM_OF_TEST_RUNS = 10;
 
-    /// <summary>
-    /// The random seed
-    /// </summary>
+    /**
+     * The seed for the Random number generator.
+     */
     private static final int RANDOM_SEED = 1234;
 
-    /// <summary>
-    /// The list
-    /// </summary>
+    /**
+     * The list of numbers to be sorted.
+     */
     private static final List<Integer> list = new ArrayList<>(ARRAY_SIZE);
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Program"/> class.
-    /// </summary>
+    /**
+     * Initializes a new instance of the App class.
+     */
     protected App()
     {
     }
 
-    /// <summary>
-    /// The Main.
-    /// </summary>
+    /**
+     * The program entry point.
+     */
     public static void main(String[] args)
     {
-        var helper = new Helper(list, Integer::compareTo, RANDOM_SEED, MAX_SALARY, ARRAY_SIZE);
+        var helper = new Helper(list, Integer::compareTo, RANDOM_SEED, MAX_INTEGER, ARRAY_SIZE);
         var rows = new CsvRow[]
         {
             new CsvRow("Arrays.sort"),
@@ -157,12 +155,14 @@ public class App
         }
     }
 
-    /// <summary>
-    /// Writes the CSV data.
-    /// </summary>
-    /// <param name="fileName">Name of the file.</param>
-    /// <param name="rows">The rows.</param>
-    /// <returns></returns>
+    /**
+     * Writes the CSV data.
+     *
+     * @param fileName name of the output CSV file
+     * @param rows     the data to output
+     *
+     * @return {@code true} if successful.
+     */
     private static boolean writeCSVData(String fileName, CsvRow[] rows)
     {
         var rtn = false;
@@ -199,67 +199,75 @@ public class App
         return rtn;
     }
 
-/// <summary>
-/// Contains data relevant to a single CSV row.
-/// </summary>
-/// <remarks>
-/// The information is specific to a single sorting algorithm, and the
-/// data collected over multiple test runs.
-/// <para/>
-/// The original idea for this class came from reading this site:<br/>
-/// https://www.codeproject.com/articles/415732/reading-and-writing-csv-files-in-csharp
-/// </remarks>
-/// <seealso cref="System.Collections.Generic.List&lt;System.Double&gt;" />
+    /**
+     * Contains data relevant to a single CSV row.
+     * <p>
+     * The information is specific to a single sorting algorithm, and the
+     * data collected over multiple test runs.
+     * <p>
+     * The original idea for this class came from reading this
+     * article/blog:<br/>
+     * <a href="https://www.codeproject.com/articles/415732/reading-and-writing-csv-files-in-csharp">
+     * reading-and-writing-csv-files-in-csharp</a>
+     * <p>
+     */
     private static final class CsvRow extends ArrayList<Double>
     {
         private static final long serialVersionUID = -5577940667264457537L;
 
         private String algorithm;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CsvRow"/> class.
-        /// </summary>
-        /// <param name="algorithm">The algorithm.</param>
+        /**
+         * Initializes a new instance of the CsvRow class.
+         *
+         * @param algorithm used to sort array
+         */
         public CsvRow(String algorithm)
         {
             setAlgorithm(algorithm);
         }
 
-        /// <summary>
-        /// Gets or sets the algorithm.
-        /// </summary>
+        /**
+         * Gets the algorithm.
+         *
+         * @return
+         */
         public String getAlgorithm()
         {
             return algorithm;
         }
 
+        /**
+         * Sets the algorithm.
+         *
+         * @param value
+         */
         public void setAlgorithm(String value)
         {
             algorithm = value;
         }
 
-        /// <summary>
-        /// Gets the average.
-        /// </summary>
-        /// <value>
-        /// The average.
-        /// </value>
+        /**
+         * Gets the average.
+         *
+         * @return the average
+         */
         public double getAvg()
         {
             double total = 0;
 
-//            total = this.stream().map(item -> item)
-//                    .reduce(total, (accumulator, _item) -> accumulator + _item);
             total = this.stream().reduce(total, (accumulator, item) -> accumulator + item);
 
             return total / size();
         }
 
-        /// <summary>
-        /// Parses a CSV string.
-        /// </summary>
-        /// <param name="csvString">The CSV string.</param>
-        /// <returns>A new <see cref="CsvRow"/>.</returns>
+        /**
+         * Parses a CSV string.
+         *
+         * @param csvString the string to parse
+         *
+         * @return a new CsvRow populated with information from the csvString.
+         */
         public static CsvRow parseCSV(String csvString)
         {
             CsvRow rtn = null;
