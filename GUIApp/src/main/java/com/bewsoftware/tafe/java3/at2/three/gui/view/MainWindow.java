@@ -29,11 +29,9 @@ package com.bewsoftware.tafe.java3.at2.three.gui.view;
 import com.bewsoftware.tafe.java3.at2.three.common.Helper;
 import com.bewsoftware.tafe.java3.at2.three.gui.util.Algorithm;
 import com.bewsoftware.tafe.java3.at2.three.gui.util.SortingTask;
-import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -42,20 +40,26 @@ import static java.text.NumberFormat.getIntegerInstance;
 import static javafx.scene.control.Alert.AlertType.ERROR;
 
 /**
- * FXML Controller class
+ * FXML Controller class for the 'MainWindow.fxml' file.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  */
 public class MainWindow
 {
 
-    /// </summary>
+    /**
+     * The size of the array.
+     */
     private final int ARRAY_SIZE = 1000000;
 
-    private final int MAX_SALARY = 10000000;
+    /**
+     * The largest Integer value to use.
+     */
+    private final int MAX_INTEGER = 10000000;
 
-    private final int MIN_SALARY = 10000;
-
+    /**
+     * The seed number for the Random number generator.
+     */
     private final int RANDOM_SEED = 1234;
 
     @FXML
@@ -67,15 +71,15 @@ public class MainWindow
     @FXML
     private Label durationLabel;
 
+    /**
+     * The current instance of the {@link Helper} class.
+     */
     private final Helper helper;
 
+    /**
+     * The list of Integers to be sorted.
+     */
     private final List<Integer> list = new ArrayList<>();
-
-    @FXML
-    private URL location;
-
-    @FXML
-    private ResourceBundle resources;
 
     @FXML
     private ListView<Integer> salaryListBox;
@@ -83,6 +87,9 @@ public class MainWindow
     @FXML
     private ProgressBar sortingProgressBar;
 
+    /**
+     * The worker task - multi-threaded processing of sorting.
+     */
     private SortingTask worker;
 
     @FXML
@@ -93,13 +100,13 @@ public class MainWindow
      */
     public MainWindow()
     {
-        helper = new Helper(list, Integer::compare, RANDOM_SEED, MAX_SALARY, ARRAY_SIZE);
+        helper = new Helper(list, Integer::compare, RANDOM_SEED, MAX_INTEGER, ARRAY_SIZE);
     }
 
     /**
      * Call this method to start the task.
      *
-     * @param event
+     * @param event not used
      */
     public void startWorker(ActionEvent event)
     {
@@ -121,7 +128,7 @@ public class MainWindow
     /**
      * Call this method when Stop button is pressed.
      *
-     * @param event
+     * @param event no used
      */
     public void stopWorker(ActionEvent event)
     {

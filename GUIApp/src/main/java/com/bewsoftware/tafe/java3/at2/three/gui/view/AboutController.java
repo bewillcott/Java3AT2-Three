@@ -30,12 +30,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 /**
- * FXML Controller class
+ * FXML Controller class for the 'About.fxml' file.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  */
 public class AboutController
 {
+
+    @FXML
+    private Label buildDateLabel;
+
+    @FXML
+    private Label verionLabel;
+
     /**
      * Instantiate a new copy of the AboutController class.
      */
@@ -43,13 +50,6 @@ public class AboutController
     {
         // Currently: NoOp.
     }
-
-
-    @FXML
-    private Label verionLabel;
-
-    @FXML
-    private Label buildDateLabel;
 
     /**
      * Initializes the controller class.

@@ -27,7 +27,13 @@
 package com.bewsoftware.tafe.java3.at2.three.gui;
 
 /**
- * NewMain class description.
+ * This class is being used as the application entry point, to overcome
+ * a problem with the sun.launcher.LauncherHelper in the java.base module.
+ * <p>
+ * Refer to the following blog:
+ * <a
+ * href="https://stackoverflow.com/questions/52653836/maven-shade-javafx-runtime-components-are-missing/52654791#52654791">
+ * Maven Shade JavaFX runtime components are missing</a>
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
